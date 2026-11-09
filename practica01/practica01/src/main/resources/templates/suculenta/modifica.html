@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/fragmentos :: head}"></head>
+
+<body>
+
+<header th:replace="~{layout/fragmentos :: header}"></header>
+
+<main class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-lg-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"
+                        th:text="${suculenta.idSuculenta == null
+                        ? 'Registrar nueva suculenta'
+                        : 'Actualizar suculenta'}">
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form th:action="@{/suculentas/guardar}"
+                          method="post"
+                          th:object="${suculenta}">
+
+                        <input type="hidden"
+                               th:field="*{idSuculenta}"/>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nombre común</label>
+                            <input type="text"
+                                   th:field="*{nombreComun}"
+                                   class="form-control"
+                                   maxlength="100"
+                                   required/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nombre científico</label>
+                            <input type="text"
+                                   th:field="*{nombreCientifico}"
+                                   class="form-control"
+                                   maxlength="150"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Familia</label>
+                            <input type="text"
+                                   th:field="*{familia}"
+                                   class="form-control"
+                                   maxlength="100"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Color principal</label>
+                            <input type="text"
+                                   th:field="*{colorPrincipal}"
+                                   class="form-control"
+                                   maxlength="50"/>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Altura (cm)</label>
+                                <input type="number"
+                                       th:field="*{alturaCm}"
+                                       class="form-control"
+                                       min="0"
+                                       step="0.01"/>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Precio estimado (₡)</label>
+                                <input type="number"
+                                       th:field="*{precioEstimado}"
+                                       class="form-control"
+                                       min="0"
+                                       step="0.01"/>
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nivel de riego</label>
+                            <select th:field="*{nivelRiego}"
+                                    class="form-select">
+                                <option value="">Seleccione una opción</option>
+                                <option value="Bajo">Bajo</option>
+                                <option value="Moderado">Moderado</option>
+                                <option value="Alto">Alto</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">URL de imagen</label>
+                            <input type="url"
+                                   th:field="*{rutaImagen}"
+                                   class="form-control"
+                                   maxlength="500"
+                                   placeholder="https://..."/>
+                            <small class="text-muted">
+                                Ingrese un enlace de imagen alojada en la nube.
+                            </small>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a th:href="@{/suculentas/listado}"
+                               class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-save"></i>
+                                Guardar suculenta
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<footer th:replace="~{layout/fragmentos :: footer}"></footer>
+
+</body>
+</html>

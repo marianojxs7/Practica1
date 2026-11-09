@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/fragmentos :: head}"></head>
+
+<body>
+
+<header th:replace="~{layout/fragmentos :: header}"></header>
+
+<main class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-success fw-bold">Catálogo de Suculentas</h2>
+            <p class="text-muted">
+                Administra las suculentas registradas en el sistema.
+            </p>
+        </div>
+
+        <a th:href="@{/suculentas/nuevo}"
+           class="btn btn-success">
+            <i class="bi bi-plus-circle"></i>
+            Nueva suculenta
+        </a>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-12 col-md-6 col-lg-4"
+             th:each="suculenta : ${suculentas}">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <img th:if="${suculenta.rutaImagen != null
+                             and !#strings.isEmpty(suculenta.rutaImagen)}"
+                     th:src="${suculenta.rutaImagen}"
+                     th:alt="${suculenta.nombreComun}"
+                     class="card-img-top"
+                     style="height:220px; object-fit:cover;"/>
+
+                <div th:unless="${suculenta.rutaImagen != null
+                                 and !#strings.isEmpty(suculenta.rutaImagen)}"
+                     class="bg-light d-flex align-items-center justify-content-center"
+                     style="height:220px;">
+                    <i class="bi bi-flower1 text-success"
+                       style="font-size:4rem;"></i>
+                </div>
+
+                <div class="card-body">
+
+                    <h5 class="card-title text-success fw-bold"
+                        th:text="${suculenta.nombreComun}">
+                    </h5>
+
+                    <p class="text-muted fst-italic"
+                       th:text="${suculenta.nombreCientifico}">
+                    </p>
+
+                    <hr/>
+
+                    <p class="mb-1">
+                        <strong>Familia:</strong>
+                        <span th:text="${suculenta.familia}"></span>
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Color:</strong>
+                        <span th:text="${suculenta.colorPrincipal}"></span>
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Altura:</strong>
+                        <span th:text="${suculenta.alturaCm}"></span> cm
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Riego:</strong>
+                        <span th:text="${suculenta.nivelRiego}"></span>
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Precio estimado:</strong>
+                        ₡<span th:text="${#numbers.formatDecimal(suculenta.precioEstimado, 1, 2)}"></span>
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white d-flex justify-content-between">
+
+                    <a th:href="@{/suculentas/modificar/{id}(id=${suculenta.idSuculenta})}"
+                       class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-pencil-square"></i>
+                        Editar
+                    </a>
+
+                    <a th:href="@{/suculentas/eliminar/{id}(id=${suculenta.idSuculenta})}"
+                       class="btn btn-outline-danger btn-sm"
+                       onclick="return confirm('¿Desea eliminar esta suculenta?');">
+                        <i class="bi bi-trash"></i>
+                        Eliminar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div th:if="${#lists.isEmpty(suculentas)}"
+         class="alert alert-info text-center mt-4">
+        Todavía no hay suculentas registradas.
+    </div>
+
+</main>
+
+<footer th:replace="~{layout/fragmentos :: footer}"></footer>
+
+</body>
+</html>
